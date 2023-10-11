@@ -1,17 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import { createRoot } from 'react-dom/client'; // Import createRoot from react-dom
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import './App.css'; // Import your CSS styling here
+import App from './App'; // Import the main App component
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+const root = document.getElementById('root'); // Get the root DOM element where the app will be rendered
+
+// Use createRoot to render your app
+const reactRoot = createRoot(root); // Create a React root using the createRoot method
+
+// Render the App component within a React StrictMode
+reactRoot.render(
   <React.StrictMode>
-    <App />
+    <App /> {/* Render the main App component */}
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals(); // Report web vitals for performance monitoring
