@@ -1,15 +1,15 @@
-// UpdateCar.js
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 
 function UpdateCar() {
   const [carData, setCarData] = useState({ registration_number: '', updatedField: '', updatedValue: '' });
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Send a PUT request to your Express API to update the car
-      const response = await fetch(`/cars/update/${carData.registration_number}`, {
+      const response = await fetch(`http://localhost:3000/cars/update/${carData.registration_number}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -19,18 +19,26 @@ function UpdateCar() {
 
       if (response.status === 200) {
         const data = await response.json();
+        setSuccessMessage('Car updated successfully');
+        setErrorMessage(''); // Clear any previous error message
         console.log(data); // Handle the response as needed
       } else {
-        console.error('Error updating the car');
+        setSuccessMessage('');
+        setErrorMessage('Error updating the car');
       }
     } catch (error) {
+      setSuccessMessage('');
+      setErrorMessage('Error updating the car');
       console.error('Error updating the car', error);
     }
   };
+  
 
   return (
     <div>
       <h2>Update a Car</h2>
+      {successMessage && <Alert variant="success">{successMessage}</Alert>}
+      {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
       <Form onSubmit={handleFormSubmit}>
         {/* Form fields for registration_number, updatedField, and updatedValue */}
         <Form.Group controlId="registration_number">
@@ -64,3 +72,4 @@ function UpdateCar() {
 }
 
 export default UpdateCar;
+

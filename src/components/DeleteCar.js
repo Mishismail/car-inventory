@@ -9,7 +9,7 @@ function DeleteCar() {
     e.preventDefault();
     try {
       // Send a DELETE request to your Express API to delete the car
-      const response = await fetch(`/cars/delete/${registrationNumber}`, {
+      const response = await fetch(`http://localhost:3000/cars/delete/${registrationNumber}`, {
         method: 'DELETE',
       });
 

@@ -1,6 +1,5 @@
-// client/src/components/AddCar.js
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 
 function AddCar() {
   const [carData, setCarData] = useState({
@@ -11,11 +10,18 @@ function AddCar() {
     address: '',
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
     try {
-      // Send a POST request to your Express API to add the car
-      const response = await fetch('/cars/add', {
+      setIsSubmitting(true);
+
+      const response = await fetch('http://localhost:3000/cars/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,7 +31,7 @@ function AddCar() {
 
       if (response.status === 201) {
         const data = await response.json();
-        console.log(data); // Handle the response as needed
+        setSuccessMessage('Car added successfully!');
         // Clear the form after a successful submission
         setCarData({
           make: '',
@@ -35,63 +41,76 @@ function AddCar() {
           address: '',
         });
       } else {
-        console.error('Error adding the car');
+        setErrorMessage('Error adding the car');
       }
     } catch (error) {
       console.error('Error adding the car', error);
+      setErrorMessage('Error adding the car');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div>
-      <h2>Add a Car</h2>
+      <h2><b>Add a Car</b></h2>
+      {successMessage && <Alert variant="success">{successMessage}</Alert>}
+      {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
       <Form onSubmit={handleFormSubmit}>
-        {/* Form fields for make, model, registrationNumber, currentOwner, and manufactureYear */}
-        <Form.Group controlId="make">
-          <Form.Label>Make</Form.Label>
+        <Form.Group>
+          <Form.Label><b>Make</b></Form.Label>
           <Form.Control
             type="text"
+            placeholder="Enter car brand"
             value={carData.make}
             onChange={(e) => setCarData({ ...carData, make: e.target.value })}
           />
         </Form.Group>
-        <Form.Group controlId="model">
-          <Form.Label>Model</Form.Label>
+        <Form.Group>
+          <Form.Label><b>Model</b></Form.Label>
           <Form.Control
-            type="number"
+            type="text"
+            placeholder="Enter car year model"
             value={carData.model}
             onChange={(e) => setCarData({ ...carData, model: e.target.value })}
           />
         </Form.Group>
-        <Form.Group controlId="registrationNumber">
-          <Form.Label>Registration Number</Form.Label>
+        <Form.Group>
+          <Form.Label><b>Registration Number</b></Form.Label>
           <Form.Control
             type="text"
+            placeholder="Enter registration number"
             value={carData.registrationNumber}
             onChange={(e) => setCarData({ ...carData, registrationNumber: e.target.value })}
           />
         </Form.Group>
-        <Form.Group controlId="currentOwner">
-          <Form.Label>Current Owner</Form.Label>
+        <Form.Group>
+          <Form.Label><b>Current Owner</b></Form.Label>
           <Form.Control
             type="text"
+            placeholder="Enter current owner"
             value={carData.currentOwner}
             onChange={(e) => setCarData({ ...carData, currentOwner: e.target.value })}
           />
         </Form.Group>
-        <Form.Group controlId="address">
-          <Form.Label>Address</Form.Label>
+        <Form.Group>
+          <Form.Label><b>Address</b></Form.Label>
           <Form.Control
             type="text"
+            placeholder="Enter address"
             value={carData.address}
             onChange={(e) => setCarData({ ...carData, address: e.target.value })}
           />
         </Form.Group>
-        <Button type="submit">Add Car</Button>
+        <Button variant="primary" type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Adding Car...' : 'Add Car'}
+        </Button>
       </Form>
     </div>
   );
 }
 
 export default AddCar;
+
+
 

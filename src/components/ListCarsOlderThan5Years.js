@@ -1,30 +1,44 @@
 import React, { useState, useEffect } from 'react';
+import { Button } from 'react-bootstrap';
 
 function ListCarsOlderThan5Years() {
   const [olderCars, setOlderCars] = useState([]);
 
+  const fetchOlderCars = async () => {
+    try {
+      // Fetch cars older than 5 years from your Express API
+      const response = await fetch('/cars/listOlderThan5Years', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200) {
+        const data = await response.json();
+        setOlderCars(data.cars);
+      } else {
+        throw new Error('Error fetching older cars');
+      }
+    } catch (error) {
+      console.error('Error fetching older cars', error);
+    }
+  };
+
   useEffect(() => {
-    // Fetch cars older than 5 years from your Express API
-    fetch('/cars/listOlderThan5Years', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else {
-          throw new Error('Error fetching older cars');
-        }
-      })
-      .then((data) => setOlderCars(data.cars))
-      .catch((error) => console.error('Error fetching older cars', error));
+    // Initial fetch when the component mounts
+    fetchOlderCars();
   }, []);
 
   return (
     <div>
       <h2>List of Cars Older Than 5 Years</h2>
+      <Button
+        variant="primary"
+        onClick={fetchOlderCars}
+      >
+        Refresh List
+      </Button>
       <ul>
         {olderCars.map((car, index) => (
           <li key={index}>
@@ -37,3 +51,4 @@ function ListCarsOlderThan5Years() {
 }
 
 export default ListCarsOlderThan5Years;
+

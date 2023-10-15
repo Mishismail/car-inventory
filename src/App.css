@@ -1,6 +1,6 @@
 /* src/styles.css */
 body {
-  background: linear-gradient(to bottom right, #007bff, #6c757d); /* Ombre background color */
+  background:rgba(0, 0, 0, 0.2); /* Ombre background color */
 }
 
 .custom-container {

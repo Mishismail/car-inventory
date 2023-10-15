@@ -1,13 +1,17 @@
 // routes/carRoutes.js
-import express from 'express'
+// routes/carRoutes.js
+import express from 'express';
+import * as carController from '../controllers/carController.js'; // Import all exports from carController.js
+
 const router = express.Router();
-import carController from '../controllers/carController'
 
 // Add routes for CRUD operations
 router.post('/add', carController.addCar);
-router.put('/update/:registrationNumber', carController.updateCar);
-router.delete('/delete/:registrationNumber', carController.deleteCar);
+router.put('/update/:registration_number', carController.updateCar);
+router.delete('/delete/:registration_number', carController.deleteCar);
 router.get('/listAll', carController.listAllCars);
 router.get('/listOlderThan5Years', carController.listCarsOlderThan5Years);
 
-module.exports = router;
+export default router;
+
+
