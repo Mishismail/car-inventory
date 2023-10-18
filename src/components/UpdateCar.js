@@ -1,20 +1,37 @@
+//UpdateCar.js
+
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
 function UpdateCar() {
-  const [carData, setCarData] = useState({ registration_number: '', updatedField: '', updatedValue: '' });
+  const [carData, setCarData] = useState({
+    registration_number: '',
+    updatedField: '',
+    updatedValue: '',
+  });
+
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await fetch(`http://localhost:3000/cars/update/${carData.registration_number}`, {
+      // Log the URL and data for debugging
+      const url = `http://localhost:3000/cars/update/${carData.registration_number}`;
+      const requestData = {
+        field: carData.updatedField,
+        value: carData.updatedValue,
+      };
+      console.log('URL:', url);
+      console.log('Request Data:', requestData);
+
+      const response = await fetch(url, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ field: carData.updatedField, value: carData.updatedValue }),
+        body: JSON.stringify(requestData),
       });
 
       if (response.status === 200) {
@@ -32,19 +49,18 @@ function UpdateCar() {
       console.error('Error updating the car', error);
     }
   };
-  
 
   return (
     <div>
-      <h2>Update a Car</h2>
+      <h2><b>Update a Car</b></h2>
       {successMessage && <Alert variant="success">{successMessage}</Alert>}
       {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
       <Form onSubmit={handleFormSubmit}>
-        {/* Form fields for registration_number, updatedField, and updatedValue */}
         <Form.Group controlId="registration_number">
           <Form.Label>Registration Number</Form.Label>
           <Form.Control
             type="text"
+            placeholder="Enter registration number"
             value={carData.registration_number}
             onChange={(e) => setCarData({ ...carData, registration_number: e.target.value })}
           />
@@ -53,6 +69,7 @@ function UpdateCar() {
           <Form.Label>Field to Update</Form.Label>
           <Form.Control
             type="text"
+            placeholder="Enter the field you wish to update"
             value={carData.updatedField}
             onChange={(e) => setCarData({ ...carData, updatedField: e.target.value })}
           />
@@ -61,6 +78,7 @@ function UpdateCar() {
           <Form.Label>New Value</Form.Label>
           <Form.Control
             type="text"
+            placeholder="Enter the new value"
             value={carData.updatedValue}
             onChange={(e) => setCarData({ ...carData, updatedValue: e.target.value })}
           />
@@ -72,4 +90,5 @@ function UpdateCar() {
 }
 
 export default UpdateCar;
+
 

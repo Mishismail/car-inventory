@@ -1,7 +1,4 @@
 /* src/styles.css */
-body {
-  background:rgba(0, 0, 0, 0.2); /* Ombre background color */
-}
 
 .custom-container {
   background-color: white;
@@ -13,4 +10,38 @@ body {
 .custom-form {
   color: white;
 }
+
+/* Add your custom CSS styles here */
+/* Example: */
+
+/* Center content in the middle of the screen */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f2f2f2;
+}
+
+/* Style the form inputs */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Make the Navbar responsive */
+.navbar {
+  border-bottom: 3px solid #007bff; /* Add a border at the bottom */
+}
+
+/* Style the buttons */
+.button {
+  background-color: #007bff;
+  color: white;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
 

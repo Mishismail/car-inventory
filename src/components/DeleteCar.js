@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 
 function DeleteCar() {
-  const [registrationNumber, setRegistrationNumber] = useState('');
+  const [registration_number, setRegistrationNumber] = useState('');
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
       // Send a DELETE request to your Express API to delete the car
-      const response = await fetch(`http://localhost:3000/cars/delete/${registrationNumber}`, {
+      const response = await fetch(`http://localhost:3000/cars/delete/${registration_number}`, {
         method: 'DELETE',
       });
 
@@ -28,14 +28,16 @@ function DeleteCar() {
 
   return (
     <div>
-      <h2>Delete a Car</h2>
+      <h2><b>Delete a Car</b></h2>
       <Form onSubmit={handleFormSubmit}>
         {/* Form field for registration_number */}
         <Form.Group controlId="registrationNumber">
           <Form.Label>Registration Number</Form.Label>
           <Form.Control
             type="text"
-            value={registrationNumber}
+            placeholder="Enter registration number"
+            name="registration_number"
+            value={registration_number}
             onChange={(e) => setRegistrationNumber(e.target.value)}
           />
         </Form.Group>

@@ -32,7 +32,7 @@ function ListCarsOlderThan5Years() {
 
   return (
     <div>
-      <h2>List of Cars Older Than 5 Years</h2>
+      <h2><b>List of Cars Older Than 5 Years</b></h2>
       <Button
         variant="primary"
         onClick={fetchOlderCars}

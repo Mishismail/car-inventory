@@ -14,12 +14,13 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
 
-// Connect to MongoDB
+app.use('/cars', carRoutes);
+
 const uri = 'mongodb+srv://HyperionDev-StudentMI2302:E7TEgkpoR0ItNdA1@hyperiondevl3t06.kvqx9lv.mongodb.net/mydb_test';
 
 mongoose.connect(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useNewUrlParser: true, // Use the new parser
+  useUnifiedTopology: true, // Use the new server discovery and monitoring engine
 });
 
 mongoose.connection.on('error', function () {
@@ -30,9 +31,6 @@ mongoose.connection.on('error', function () {
 mongoose.connection.once('open', function () {
   console.log('Successfully connected to the database');
 });
-
-// Use carRoutes for your API endpoints after the database connection is established
-app.use('/cars', carRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

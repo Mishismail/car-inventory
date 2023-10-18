@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-
 import { Navbar, Container, Nav } from 'react-bootstrap'; // Import Bootstrap components
-
 import AddCar from './components/AddCar';
 import UpdateCar from './components/UpdateCar';
 import DeleteCar from './components/DeleteCar';
 import ListAllCars from './components/ListAllCars';
 import ListCarsOlderThan5Years from './components/ListCarsOlderThan5Years';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import './App.css'
+
 
 function App() {
   return (
@@ -17,13 +17,13 @@ function App() {
         {/* Create a Bootstrap Navbar */}
         <Navbar bg="dark" variant="dark">
           <Container>
-            <Navbar.Brand href="/"><b>Car Inventory</b></Navbar.Brand> {/* Change 'Your App Name' to your app's name */}
+          <Navbar.Brand><b>Car Inventory</b></Navbar.Brand> 
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="/add-car">Add Car</Nav.Link>
-              <Nav.Link as={Link} to="/update-car">Update Car</Nav.Link>
-              <Nav.Link as={Link} to="/delete-car">Delete Car</Nav.Link>
-              <Nav.Link as={Link} to="/list-all-cars">List All Cars</Nav.Link>
-              <Nav.Link as={Link} to="/list-cars-older-than-5-years">List Cars Older Than 5 Years</Nav.Link>
+              <Link to="/add-car" className="nav-link">Add Car</Link>
+              <Link to="/update-car" className="nav-link">Update Car</Link>
+              <Link to="/delete-car" className="nav-link">Delete Car</Link>
+              <Link to="/list-all-cars" className="nav-link">List All Cars</Link>
+              <Link to="/list-cars-older-than-5-years" className="nav-link">List Cars Older Than 5 Years</Link>
             </Nav>
           </Container>
         </Navbar>

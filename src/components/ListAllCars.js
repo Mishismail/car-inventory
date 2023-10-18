@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 
 function ListAllCars() {
   const [cars, setCars] = useState([]);
@@ -7,24 +7,31 @@ function ListAllCars() {
   // Define the fetchCars function within the component's scope
   const fetchCars = async () => {
     try {
-      // Fetch all cars from your Express API and set them in the state
-      const response = await fetch('/cars/listAll', {
+      const response = await fetch('/cars/listAllCars', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
+  
       if (response.status === 200) {
         const data = await response.json();
         setCars(data.cars);
       } else {
-        throw new Error('Error fetching cars');
+        // Handle non-200 status codes, for example:
+        if (response.status === 404) {
+          console.error('Resource not found');
+        } else if (response.status === 500) {
+          console.error('Internal server error');
+        } else {
+          console.error('Error fetching cars. Status:', response.status);
+        }
       }
     } catch (error) {
       console.error('Error fetching cars', error);
     }
   };
+  
 
   useEffect(() => {
     // Initial fetch when the component mounts
@@ -32,26 +39,31 @@ function ListAllCars() {
   }, []);
 
   return (
-    <div>
-      <h2>List of All Cars</h2>
-      <Button
-        variant="primary"
-        onClick={fetchCars} // Use the function defined above
-      >
-        Refresh List
-      </Button>
+    <Container> {/* Wrap the list in a Container component */}
+      <h2><b>List of All Cars</b></h2>
       <ul>
         {cars.map((car, index) => (
           <li key={index}>
-            Model: {car.model}, Make: {car.make}, Registration Number: {car.registration_number}, Owner: {car.owner}
+            Model: {car.model}, 
+            Make: {car.make}, 
+            Registration Number: {car.registration_number}, 
+            Owner: {car.owner}
           </li>
         ))}
       </ul>
-    </div>
+      <Button
+        variant="primary"
+        onClick={fetchCars} 
+      >
+        Refresh List
+      </Button>
+    </Container>
   );
 }
 
 export default ListAllCars;
+
+
 
 
 
