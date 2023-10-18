@@ -39,7 +39,7 @@ function ListAllCars() {
   }, []);
 
   return (
-    <Container> {/* Wrap the list in a Container component */}
+    <Container>
       <h2><b>List of All Cars</b></h2>
       <ul>
         {cars.map((car, index) => (

@@ -38,7 +38,7 @@ function UpdateCar() {
         const data = await response.json();
         setSuccessMessage('Car updated successfully');
         setErrorMessage(''); // Clear any previous error message
-        console.log(data); // Handle the response as needed
+        console.log(data);
       } else {
         setSuccessMessage('');
         setErrorMessage('Error updating the car');

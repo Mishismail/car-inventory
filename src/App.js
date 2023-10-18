@@ -14,7 +14,6 @@ function App() {
   return (
     <div className="App">
       <Router>
-        {/* Create a Bootstrap Navbar */}
         <Navbar bg="dark" variant="dark">
           <Container>
           <Navbar.Brand><b>Car Inventory</b></Navbar.Brand> 
