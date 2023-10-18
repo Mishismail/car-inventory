@@ -1,7 +1,7 @@
 //carController.js
 import { Car } from '../models/carModel.js';
 
-// Create a new car
+// Add a new car
 export const addCar = async (req, res) => {
   try {
       const newCar = new Car(req.body);
