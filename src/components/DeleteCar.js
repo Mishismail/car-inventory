@@ -1,38 +1,45 @@
 // DeleteCar.js
+
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Alert, Container } from 'react-bootstrap';
+import '../App.css';
 
 function DeleteCar() {
   const [registration_number, setRegistrationNumber] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Send a DELETE request to Express API to delete the car
-      const response = await fetch(`http://localhost:3000/cars/delete/${registration_number}`, {
+      const response = await fetch(`http://localhost:8080/cars/delete/${registration_number}`, {
         method: 'DELETE',
       });
 
-      if (response.status === 200) {
+      if (response.ok) {
         const data = await response.json();
-        console.log(data); 
-        // Clear the registration number field after a successful deletion
+        setSuccessMessage('Car deleted successfully');
+        setErrorMessage('');
+        console.log(data);
         setRegistrationNumber('');
       } else {
-        console.error('Error deleting the car');
+        throw new Error('Error deleting the car');
       }
     } catch (error) {
+      setSuccessMessage('');
+      setErrorMessage('Error deleting the car');
       console.error('Error deleting the car', error);
     }
   };
 
   return (
-    <div>
-      <h2><b>Delete a Car</b></h2>
+    <Container className="custom-container">
+      <h2 className="mb-4"><b>Delete a Car</b></h2>
+      {successMessage && <Alert variant="success">{successMessage}</Alert>}
+      {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
       <Form onSubmit={handleFormSubmit}>
-        {/* Form field for registration_number */}
-        <Form.Group controlId="registrationNumber">
-          <Form.Label>Registration Number</Form.Label>
+        <Form.Group controlId="registration_number">
+          <Form.Label><b>Registration Number</b></Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter registration number"
@@ -41,11 +48,12 @@ function DeleteCar() {
             onChange={(e) => setRegistrationNumber(e.target.value)}
           />
         </Form.Group>
-        <Button type="submit">Delete Car</Button>
+        <Button variant="primary" type="submit">
+          Delete Car
+        </Button>
       </Form>
-    </div>
+    </Container>
   );
 }
 
 export default DeleteCar;
-

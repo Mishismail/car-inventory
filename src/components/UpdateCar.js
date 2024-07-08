@@ -1,7 +1,8 @@
 //UpdateCar.js
 
 import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button, Alert, Container } from 'react-bootstrap';
+import '../App.css';
 
 function UpdateCar() {
   const [carData, setCarData] = useState({
@@ -16,16 +17,13 @@ function UpdateCar() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      // Log the URL and data for debugging
-      const url = `http://localhost:3000/cars/update/${carData.registration_number}`;
-      const requestData = {
-        field: carData.updatedField,
-        value: carData.updatedValue,
-      };
-      console.log('URL:', url);
-      console.log('Request Data:', requestData);
+    const url = `http://localhost:8080/cars/update/${carData.registration_number}`;
+    const requestData = {
+      field: carData.updatedField,
+      value: carData.updatedValue,
+    };
 
+    try {
       const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -34,14 +32,14 @@ function UpdateCar() {
         body: JSON.stringify(requestData),
       });
 
-      if (response.status === 200) {
+      if (response.ok) {
         const data = await response.json();
         setSuccessMessage('Car updated successfully');
         setErrorMessage(''); // Clear any previous error message
         console.log(data);
       } else {
-        setSuccessMessage('');
-        setErrorMessage('Error updating the car');
+        const errorData = await response.json();
+        setErrorMessage(errorData.error || 'Error updating the car');
       }
     } catch (error) {
       setSuccessMessage('');
@@ -51,13 +49,13 @@ function UpdateCar() {
   };
 
   return (
-    <div>
-      <h2><b>Update a Car</b></h2>
+    <Container className="custom-container">
+      <h2 className="mb-4"><b>Update a Car</b></h2>
       {successMessage && <Alert variant="success">{successMessage}</Alert>}
       {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
       <Form onSubmit={handleFormSubmit}>
         <Form.Group controlId="registration_number">
-          <Form.Label>Registration Number</Form.Label>
+          <Form.Label><b>Registration Number</b></Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter registration number"
@@ -66,7 +64,7 @@ function UpdateCar() {
           />
         </Form.Group>
         <Form.Group controlId="updatedField">
-          <Form.Label>Field to Update</Form.Label>
+          <Form.Label><b>Field to Update</b></Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter the field you wish to update"
@@ -75,7 +73,7 @@ function UpdateCar() {
           />
         </Form.Group>
         <Form.Group controlId="updatedValue">
-          <Form.Label>New Value</Form.Label>
+          <Form.Label><b>New Value</b></Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter the new value"
@@ -83,12 +81,12 @@ function UpdateCar() {
             onChange={(e) => setCarData({ ...carData, updatedValue: e.target.value })}
           />
         </Form.Group>
-        <Button type="submit">Update Car</Button>
+        <Button variant="primary" type="submit">
+          Update Car
+        </Button>
       </Form>
-    </div>
+    </Container>
   );
 }
 
 export default UpdateCar;
-
-

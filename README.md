@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+# Car Inventory Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a full-stack web application called carInventory. The back-end of the application is built using Express and the front-end using React. The application uses MongoDB to store information about cars in a collection called cars.
 
-## Available Scripts
+## Features
+- Add a car to the cars collection.
+- Update information about a single car.
+- Update information about more than one car.
+- Delete a specific car.
+- List all the information for all cars in the database.
+- List model, make, registration number, and current owner for all cars older than 5 years.
 
-In the project directory, you can run:
+## Installation and Running Locally
+### Prerequisites
+- Node.js and npm installed.
+- MongoDB installed and running.
 
-### `npm start`
+## Back-End (Express)
+1. Clone the repository:
+```
+git clone https://github.com/your-username/carInventory.git
+cd carInventory/car-inventory-backend
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Install dependencies:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+npm install
+```
+3. Create a .env file in the root of the car-inventory-backend directory and add your MongoDB connection string:
+```
+MONGODB_URI=mongodb+srv://your-username:your-password@your-cluster.mongodb.net/your-database
+```
+4. Start the server:
+```
+node server.js
+```
 
-### `npm test`
+## Front-End (React)
+1. Install dependencies:
+```
+npm install
+```
+2. Start the React application:
+```
+npm start
+```
+3. Open your browser and navigate to http://localhost:3000
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Testing with ThunderClient
 
-### `npm run build`
+### Add a Car
+- Endpoint: POST http://localhost:8080/cars/add
+- Request Body:
+```
+{
+  "model": 2021,
+  "make": "Toyota",
+  "colour": "Red",
+  "registration_number": "ABC123",
+  "owner": "John Doe",
+  "address": "123 Main St"
+}
+```
+## Update a Single Car
+- Endpoint: PUT http://localhost:8080/cars/update/:registration_number
+- Request Body:
+```
+{
+  "field": "colour",
+  "value": "Blue"
+}
+```
+## Delete a Specific Car
+- Endpoint: DELETE http://localhost:8080/cars/delete/:registration_number
+- Request Body: None
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## List All Cars
+- Endpoint: GET http://localhost:8080/cars/listAllCars
+- Request Body: None
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## List Cars Older Than 5 Years
+- Endpoint: GET http://localhost:8080/cars/listOlderThan5Years
+- Request Body: None
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Notes
+- Ensure MongoDB is running and accessible using the connection string provided in the .env file.
+- Adjust the MongoDB URI as per your setup.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Container } from 'react-bootstrap';
+import { Button, Container, Card, Row, Col } from 'react-bootstrap';
+import '../App.css';
 
 function ListAllCars() {
   const [cars, setCars] = useState([]);
 
-  // Define the fetchCars function within the component's scope
   const fetchCars = async () => {
     try {
-      const response = await fetch('/cars/listAllCars', {
+      const response = await fetch('http://localhost:8080/cars/listAllCars', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-  
-      if (response.status === 200) {
+
+      if (response.ok) {
         const data = await response.json();
         setCars(data.cars);
       } else {
-        // Handle non-200 status codes, for example:
         if (response.status === 404) {
           console.error('Resource not found');
         } else if (response.status === 500) {
@@ -26,34 +25,39 @@ function ListAllCars() {
         } else {
           console.error('Error fetching cars. Status:', response.status);
         }
+        throw new Error('Error fetching cars');
       }
     } catch (error) {
       console.error('Error fetching cars', error);
     }
   };
-  
 
   useEffect(() => {
-    // Initial fetch when the component mounts
     fetchCars();
   }, []);
 
   return (
-    <Container>
-      <h2><b>List of All Cars</b></h2>
-      <ul>
+    <Container className="custom-container">
+      <h2 className="mb-4"><b>List of All Cars</b></h2>
+      <Row>
         {cars.map((car, index) => (
-          <li key={index}>
-            Model: {car.model}, 
-            Make: {car.make}, 
-            Registration Number: {car.registration_number}, 
-            Owner: {car.owner}
-          </li>
+          <Col key={index} xs={12} sm={6} md={4} lg={3} className="mb-4">
+            <Card className="car-card">
+              <Card.Body>
+                <Card.Title>{car.make} {car.model}</Card.Title>
+                <Card.Text>
+                  <strong>Registration Number:</strong> {car.registration_number}<br />
+                  <strong>Owner:</strong> {car.owner}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
         ))}
-      </ul>
+      </Row>
       <Button
         variant="primary"
-        onClick={fetchCars} 
+        onClick={fetchCars}
+        className="mt-4"
       >
         Refresh List
       </Button>
@@ -62,8 +66,3 @@ function ListAllCars() {
 }
 
 export default ListAllCars;
-
-
-
-
-

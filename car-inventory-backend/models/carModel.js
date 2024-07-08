@@ -1,21 +1,59 @@
 // models/carModel.js
+
 import mongoose from 'mongoose';
 
 const carSchema = new mongoose.Schema({
-  model: Number,
-  make: String,
-  colour: String,
-  registration_number: String,
-  owner: String,
-  address: String,
+  model: {
+    type: Number,
+    required: true,
+  },
+  make: {
+    type: String,
+    required: true,
+  },
+  colour: {
+    type: String,
+    required: true,
+  },
+  registration_number: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  owner: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
   previous_owners: [
     {
-      model: Number,
-      make: String,
-      colour: String,
-      registration_number: String,
-      owner: String,
-      address: String,
+      model: {
+        type: Number,
+        required: true,
+      },
+      make: {
+        type: String,
+        required: true,
+      },
+      colour: {
+        type: String,
+        required: true,
+      },
+      registration_number: {
+        type: String,
+        required: true,
+      },
+      owner: {
+        type: String,
+        required: true,
+      },
+      address: {
+        type: String,
+        required: true,
+      },
     },
   ],
 });
@@ -23,4 +61,3 @@ const carSchema = new mongoose.Schema({
 const Car = mongoose.model('Car', carSchema);
 
 export default Car;
-

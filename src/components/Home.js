@@ -1,13 +1,14 @@
 // Home.js
+
 import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import '../App.css';
 
 function Home() {
   const [cars, setCars] = useState([]);
 
-  // Define the fetchCars function within the component's scope
   const fetchCars = async () => {
     try {
-      // Fetch all cars from your Express API and set them in the state
       const response = await fetch('/cars/listAllCars', {
         method: 'GET',
         headers: {
@@ -15,7 +16,7 @@ function Home() {
         },
       });
 
-      if (response.status === 200) {
+      if (response.ok) {
         const data = await response.json();
         setCars(data.cars);
       } else {
@@ -27,23 +28,31 @@ function Home() {
   };
 
   useEffect(() => {
-    // Initial fetch when the component mounts
     fetchCars();
   }, []);
 
   return (
-    <div>
-      <h2>List of All Cars</h2>
-      <ul>
+    <Container className="custom-container">
+      <h2 className="mb-4"><b>List of All Cars</b></h2>
+      <Row>
         {cars.map((car, index) => (
-          <li key={index}>
-            Model: {car.model}, Make: {car.make}, Colour: {car.colour}, Registration Number: {car.registration_number}, Owner: {car.owner}, Address: {car.address}
-          </li>
+          <Col key={index} xs={12} sm={6} md={4} lg={3} className="mb-4">
+            <Card className="car-card">
+              <Card.Body>
+                <Card.Title>{car.make} {car.model}</Card.Title>
+                <Card.Text>
+                  <strong>Colour:</strong> {car.colour}<br />
+                  <strong>Registration Number:</strong> {car.registration_number}<br />
+                  <strong>Owner:</strong> {car.owner}<br />
+                  <strong>Address:</strong> {car.address}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
         ))}
-      </ul>
-    </div>
+      </Row>
+    </Container>
   );
 }
 
 export default Home;
-

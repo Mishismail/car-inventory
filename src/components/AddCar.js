@@ -1,7 +1,8 @@
 //AddCar.js
 
 import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button, Alert, Container } from 'react-bootstrap';
+import '../App.css';
 
 function AddCar() {
   const [carData, setCarData] = useState({
@@ -24,7 +25,7 @@ function AddCar() {
     try {
       setIsSubmitting(true);
 
-      const response = await fetch('http://localhost:3000/cars/add', {
+      const response = await fetch('http://localhost:8080/cars/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,8 +33,10 @@ function AddCar() {
         body: JSON.stringify(carData),
       });
 
-      if (response.status === 201) {
+      if (response.ok) {
+        const data = await response.json();
         setSuccessMessage('Car added successfully!');
+        setErrorMessage('');
         // Clear the form after a successful submission
         setCarData({
           model: '',
@@ -44,23 +47,25 @@ function AddCar() {
           address: '',
         });
       } else {
-        setErrorMessage('Error adding the car');
+        const errorData = await response.json();
+        setErrorMessage(errorData.error || 'Error adding the car');
       }
     } catch (error) {
       console.error('Error adding the car', error);
       setErrorMessage('Error adding the car');
+      setSuccessMessage('');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="add-car-container">
-      <h2><b>Add a Car</b></h2>
+    <Container className="custom-container">
+      <h2 className="mb-4"><b>Add a Car</b></h2>
       {successMessage && <Alert variant="success">{successMessage}</Alert>}
       {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
       <Form onSubmit={handleFormSubmit}>
-        <Form.Group>
+        <Form.Group controlId="model">
           <Form.Label><b>Model</b></Form.Label>
           <Form.Control
             type="text"
@@ -69,7 +74,7 @@ function AddCar() {
             onChange={(e) => setCarData({ ...carData, model: e.target.value })}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group controlId="make">
           <Form.Label><b>Make</b></Form.Label>
           <Form.Control
             type="text"
@@ -78,7 +83,7 @@ function AddCar() {
             onChange={(e) => setCarData({ ...carData, make: e.target.value })}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group controlId="colour">
           <Form.Label><b>Colour</b></Form.Label>
           <Form.Control
             type="text"
@@ -87,7 +92,7 @@ function AddCar() {
             onChange={(e) => setCarData({ ...carData, colour: e.target.value })}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group controlId="registration_number">
           <Form.Label><b>Registration Number</b></Form.Label>
           <Form.Control
             type="text"
@@ -96,7 +101,7 @@ function AddCar() {
             onChange={(e) => setCarData({ ...carData, registration_number: e.target.value })}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group controlId="owner">
           <Form.Label><b>Current Owner</b></Form.Label>
           <Form.Control
             type="text"
@@ -105,7 +110,7 @@ function AddCar() {
             onChange={(e) => setCarData({ ...carData, owner: e.target.value })}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group controlId="address">
           <Form.Label><b>Address</b></Form.Label>
           <Form.Control
             type="text"
@@ -118,11 +123,8 @@ function AddCar() {
           {isSubmitting ? 'Adding Car...' : 'Add Car'}
         </Button>
       </Form>
-    </div>
+    </Container>
   );
 }
 
 export default AddCar;
-
-
-

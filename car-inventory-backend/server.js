@@ -1,4 +1,5 @@
 // server.js
+
 import express from 'express';
 import helmet from 'helmet'; // Middleware for enhancing security
 import mongoose from 'mongoose';
@@ -7,20 +8,24 @@ import carRoutes from './routes/carRoutes.js';
 import cors from 'cors'; // Import CORS middleware
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 // Middleware
 app.use(helmet());
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Ensure this matches your frontend origin
+  methods: 'GET,PUT,POST,DELETE',
+  credentials: true, 
+}));
 
 app.use('/cars', carRoutes);
 
-const uri = 'mongodb+srv://HyperionDev-StudentMI2302:E7TEgkpoR0ItNdA1@hyperiondevl3t06.kvqx9lv.mongodb.net/mydb_test';
+const uri = 'mongodb+srv://mishkaismail:K4weX7SkXXiJS9B7@carinventory.rm8uvpa.mongodb.net/?retryWrites=true&w=majority&appName=CarInventory';
 
 mongoose.connect(uri, {
-  useNewUrlParser: true, // Use the new parser
-  useUnifiedTopology: true, // Use the new server discovery and monitoring engine
+  useNewUrlParser: true, 
+  useUnifiedTopology: true, 
 });
 
 mongoose.connection.on('error', function () {
@@ -35,6 +40,3 @@ mongoose.connection.once('open', function () {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-
-
