@@ -87,7 +87,8 @@ npm start
 - Ensure MongoDB is running and accessible using the connection string provided in the .env file.
 - Adjust the MongoDB URI as per your setup.
 
-
+# Screenshot
+<img width="781" alt="Screenshot 2024-07-08 at 21 19 44" src="https://github.com/Mishismail/car-inventory/assets/140344029/582a56c8-dc3e-45e2-81b0-62f46bfed1e8">
 
 
 
